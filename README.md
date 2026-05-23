@@ -1,150 +1,313 @@
 # BlackBox Automation
 
-## Information Gathering Workflow
+A comprehensive, authorized web application security testing framework combining reconnaissance, threat modeling, vulnerability discovery, safe validation, and structured reporting workflows for penetration testing and bug bounty programs.
 
-This workflow describes the methods and tools used to gather reconnaissance information during security assessments and penetration testing phases.
+## Overview
 
----
+BlackBox Automation provides a structured methodology for conducting security assessments on web applications, APIs, GraphQL endpoints, and browser-based systems. The framework emphasizes evidence-driven vulnerability discovery, safe proof-of-concept validation, and impact-focused reporting while maintaining strict operational security controls.
 
-## 1. Asset Discovery & Fingerprinting
+### Key Principles
 
-Identify and enumerate digital assets including subdomains, services, hosts, and infrastructure. Simultaneously fingerprint technology stack, security controls, frameworks, and authentication mechanisms.
-
-### Search & Public Information Methods
-
-- **Dorking**: Use advanced search operators (Google, Bing, etc.) to find exposed information and infrastructure
-- **Certificate Transparency (crt.sh)**: Find subdomains through SSL/TLS certificate records
-- **WHOIS & DNS Records**: Gather domain registration info, nameservers, DNS history, and mail servers
-- **Shodan**: Discover exposed services, versions, banners, and infrastructure details (paid account available)
-- **Censys**: Free alternative for service enumeration and certificate discovery
-- **Wayback Machine**: Retrieve historical snapshots of target websites and previous configurations
-
-### Fingerprinting Targets
-
-**Technology Stack:**
-- Identify web frameworks, libraries, and backend technologies
-- Detect programming languages and version information
-- Find CMS, server software, and dependent packages
-
-**WAF/CDN Detection:**
-- Identify Web Application Firewalls (WAF) presence and type
-- Detect Content Delivery Networks (CDN) and cloud providers
-- Understand traffic routing and filtering mechanisms
-
-**Frameworks & Libraries:**
-- Map out frontend frameworks (React, Vue, Angular, etc.)
-- Identify backend frameworks and API versions
-- Discover third-party libraries and dependencies
-
-**Authentication Detection:**
-- Identify authentication mechanisms (OAuth, SAML, custom, etc.)
-- Detect MFA/2FA implementations
-- Find login endpoints and authentication flows
-
-### Passive Methods
-
-**Subdomain Enumeration (in order of preference):**
-1. **Chaos** (preferred) - Fast and comprehensive subdomain discovery
-2. **Subfinder** - Multi-source subdomain enumeration with passive techniques
-3. **AMASS** - In-depth asset enumeration and profiling with network mapping
-4. **Gungir / Live Cert Tracker** - Real-time certificate monitoring and discovery
-
-**Passive Tools:**
-- **Shodan CLI** - Command-line interface for service discovery and technology signatures (leverage paid account)
-- **Wappalyzer CLI** - Identify web technologies and frameworks installed
-- **JARM** - TLS server fingerprinting for WAF and infrastructure identification
-- **dig/nslookup** - DNS queries and zone transfer attempts
-
-### Aggressive Methods
-
-**Active Probing & Scanning Tools:**
-- **dnsx** - DNS probing and validation of discovered subdomains
-- **shuffledns** - DNS resolver with wildcard filtering and mass subdomain validation (use [Trickest resolvers](https://github.com/trickest/resolvers) for optimal results)
-- **httpx** - HTTP/HTTPS probing, service validation, banner grabbing, and technology detection
-- **Nmap** - Network scanning, service enumeration, version detection, and OS fingerprinting
-- **Nuclei** - Technology fingerprinting and service identification via templates
-- **Masscan** - High-speed internet port scanner for large-scale reconnaissance
+- **Evidence-First**: All findings backed by repeatable test cases and clear impact demonstration
+- **Scoped & Authorized**: Strict enforcement of authorization boundaries and out-of-scope protections
+- **Low-Impact Testing**: Reversible actions, owned accounts, and minimal noise
+- **Security-Focused**: Built-in controls to prevent data exfiltration, malware deployment, or detection evasion
 
 ---
 
-## 2. Content Discovery
+## Project Structure
 
-Identify hidden content, directories, endpoints, leaked data, and sensitive information.
-
-### Passive Methods
-
-- **GitHub/GitLab Searches**: Find exposed credentials, API keys, internal configurations, and source code leaks
-- **Public Breach Databases**: HaveIBeenPwned, Breaches.io, LeakDB for compromised credentials and data leaks
-- **Social Media Reconnaissance**: LinkedIn, Twitter, Facebook for employee info, tech stack clues, and organizational structure
-- **Email Discovery**: Use Hunter.io, Clearbit, RocketReach to find employee emails and contact information
-- **Wayback Machine**: Search for historical endpoints, directories, and leaked content
-- **waybackurls** - Extract URLs from Wayback Machine for historical endpoint discovery
-- **gau** - Get All URLs from Common Crawl, URLScan, and Otx
-- **urlfinder** - Find URLs from JavaScript files and source code
-
-### Aggressive Methods
-
-**Active Crawling & Scanning Tools:**
-- **httpx** - Probe discovered assets and validate HTTP endpoints for accessibility
-- **Nuclei** - Template-based scanning for exposed content and misconfigurations
-- **GitHub Search CLI**: Automated searching for credentials and sensitive data in repositories
-- **katana** - Powerful crawling and spidering tool for web reconnaissance
-- **hakrawler** - Simple web crawler for content and endpoint discovery
-- **gospider** - Fast web spider for discovering endpoints and links
-- **ParamSpider** - Discover parameters from crawled URLs
-
----
-
-## 3. Monitoring & Notifications
-
-Real-time monitoring and alerting for discovered vulnerabilities, new findings, and automation workflow status.
-
-### Notification Methods
-
-**Discord Integration:**
-- Receive real-time alerts on new findings, vulnerabilities, and automation status
-- Organize alerts by channel (assets, content, fingerprinting, etc.)
-- Archive and track findings over time
-
-**Monitoring Tools:**
-- **Notify** - Unified notification tool for sending alerts to Discord, Slack, Telegram, and other platforms
-  - Installation: `go install -v github.com/projectdiscovery/notify/cmd/notify@latest`
-  - Configuration: Set Discord webhook URLs in notify configuration file
-  - Usage: Pipe tool outputs to notify for real-time Discord alerts
-
-**Recommended Setup:**
-- Configure separate Discord channels for each reconnaissance phase
-- Set up notification pipelines from tools (e.g., `subfinder | notify`, `nuclei | notify`)
-- Monitor for critical findings in real-time
-- Create automated backup/logging of all findings
+```
+blackbox-automation/
+├── README.md                           # This file
+├── web-security-workflow.md            # Information gathering and reconnaissance workflow
+├── setup/
+│   └── setup.sh                        # Initial environment setup script
+├── .config/
+│   └── alterx/                         # Alterx subdomain permutation configurations
+│       └── alterx-large-practical-deep.yaml
+├── ai/
+│   └── skills/                         # AI-assisted testing skills and playbooks
+│       ├── web-security/               # End-to-end web security testing orchestrator
+│       ├── web-threat-model/           # Threat modeling for web applications
+│       ├── web-finding-discovery/      # Vulnerability discovery workflows
+│       ├── web-validation/             # Vulnerability validation and proof-of-concept
+│       ├── web-reporting/              # Bug bounty and pentest report generation
+│       ├── source-code-security/       # Source code security analysis
+│       ├── source-threat-model/        # Application threat modeling
+│       ├── source-validation/          # Code-based vulnerability validation
+│       ├── ReportAI/                   # Structured vulnerability report generation
+│       └── goal/                       # Goal-driven security assessment planning
+└── nuclei-templates/                   # Custom Nuclei vulnerability scanning templates
+```
 
 ---
 
-## General Configuration
+## Core Components
 
-This section contains all configuration settings including tools.
+### 1. AI Security Skills
 
-### Alterx Configuration
+The `ai/skills/` directory contains modular security testing workflows designed to integrate with AI-assisted vulnerability discovery and validation:
 
-**Alterx** - Subdomain permutation and alteration tool for discovering new subdomains through word mutations and pattern variations.
+#### Web Application Testing
 
-**Configuration File**: [`.config/alterx/alterx-large-practical-deep.yaml`](.config/alterx/alterx-large-practical-deep.yaml)
+- **[web-security](ai/skills/web-security/SKILL.md)** - End-to-end authorized web application and API security testing. Orchestrates reconnaissance, threat modeling, discovery, validation, and reporting into a unified workflow.
 
-**Overview**:
-- **Profile**: Large but practical AlterX configuration optimized for bug bounty and authorized reconnaissance
-- **Design Goals**: High-signal permutations first, environment/service/cloud/region-aware naming, minimal brute-force noise
-- **Use Case**: HackerOne/Bugcrowd style external attack-surface discovery
+- **[web-threat-model](ai/skills/web-threat-model/SKILL.md)** - Builds formal threat models for web applications by enumerating assets, trust boundaries, attacker-controlled inputs, roles, and security invariants. Outputs structured models for pentest planning and attack surface mapping.
 
-**Key Patterns**:
-- Core dash and dot permutations with word, subdomain, environment, service, tech, and cloud variables
-- No-separator permutations for alternative naming conventions
-- Environment-aware patterns (dev, staging, prod, test, etc.)
-- Service-aware patterns (api, mail, web, cdn, etc.)
-- Cloud provider patterns (aws, azure, gcp, etc.)
+- **[web-finding-discovery](ai/skills/web-finding-discovery/SKILL.md)** - Vulnerability discovery workflows for common web security issues (IDOR, auth bypass, injection, SSRF, XSS, etc.). Produces high-signal candidates with minimal false positives.
+
+- **[web-validation](ai/skills/web-validation/SKILL.md)** - Safe validation of suspected vulnerabilities through repeatable HTTP request testing, baseline comparison, and impact confirmation. Includes false-positive suppression with exact counterevidence.
+
+- **[web-reporting](ai/skills/web-reporting/SKILL.md)** - Structured vulnerability report generation for bug bounty platforms (HackerOne, Bugcrowd) and internal pentest deliverables. Includes severity triage and remediation guidance.
+
+#### Source Code Security
+
+- **[source-code-security](ai/skills/source-code-security/SKILL.md)** - Static analysis, secret detection, dependency scanning, and code-based vulnerability discovery.
+
+- **[source-threat-model](ai/skills/source-threat-model/SKILL.md)** - Threat modeling for applications through source code review.
+
+- **[source-validation](ai/skills/source-validation/SKILL.md)** - Validating suspected code-based vulnerabilities through taint analysis and execution flows.
+
+#### Other Workflows
+
+- **[ReportAI](ai/skills/ReportAI/SKILL.md)** - Security-focused vulnerability report generation with OWASP Top 10 guidance.
+
+- **[goal](ai/skills/goal/SKILL.md)** - Goal-driven security assessment planning and orchestration.
+
+---
+
+### 2. Automation Scripts
+
+#### Web Security Scripts
+
+Located in `ai/skills/web-security/scripts/`:
+
+- **`new_finding.py`** - Generates HackerOne finding drafts from vulnerability details. Automates initial report structuring for quick triage.
+
+- **`check_skill_structure.py`** - Validates required files and structure for security skills. Ensures skill directories contain necessary documentation and references.
+
+- **`api_key_exposure_triage.py`** - Automated triage for exposed API keys and credentials. Categorizes severity and suggested remediation.
+
+#### Source Code Scripts
+
+Located in `ai/skills/source-code-security/scripts/`:
+
+- **`source_inventory.py`** - Catalogs source code assets, dependencies, and technology stack.
+
+- **`source_candidate_triage.py`** - Triages code-based vulnerability candidates by severity and exploitability.
+
+- **`secret_candidate_scanner.py`** - Detects and categorizes hardcoded secrets, credentials, and sensitive tokens.
+
+---
+
+### 3. Configuration Files
+
+#### Alterx Subdomain Permutation
+
+**File**: `.config/alterx/alterx-large-practical-deep.yaml`
+
+Configuration for the Alterx tool, optimized for bug bounty and authorized reconnaissance:
+
+- **Profile**: Large but practical permutation patterns for subdomain discovery
+- **Design**: High-signal patterns first, environment/service/cloud-aware naming
+- **Patterns Include**:
+  - Core dash permutations: `{{word}}-{{sub}}.{{suffix}}`
+  - Core dot permutations: `{{word}}.{{sub}}.{{suffix}}`
+  - Environment patterns: dev, staging, prod, test
+  - Service patterns: api, mail, web, cdn, ops
+  - Cloud patterns: aws, azure, gcp, cloudflare
 
 **Usage**:
 ```bash
 alterx -c .config/alterx/alterx-large-practical-deep.yaml -d target.com | dnsx
 ```
 
-**Integration**: Pipe results to `dnsx` or `httpx` for validation and active probing in reconnaissance pipelines.
+---
+
+## Information Gathering Workflow
+
+See [web-security-workflow.md](web-security-workflow.md) for detailed reconnaissance methodology including:
+
+### 1. Asset Discovery & Fingerprinting
+
+- **Passive Methods**: Certificate transparency, WHOIS, DNS, subdomain enumeration (Chaos, Subfinder, AMASS)
+- **Active Methods**: DNS probing (dnsx), HTTP validation (httpx), port scanning (Nmap, Masscan)
+- **Technology Fingerprinting**: Web frameworks, WAF/CDN detection, authentication mechanisms
+
+### 2. Content Discovery
+
+- **Passive Methods**: GitHub/GitLab search, breach databases, social media reconnaissance, Wayback Machine
+- **Active Methods**: Web crawling (katana, gospider, hakrawler), endpoint discovery, parameter mining (ParamSpider)
+
+### 3. Monitoring & Notifications
+
+- **Discord Integration**: Real-time alerts on new findings and vulnerability discoveries
+- **Notify Tool**: Unified notification pipeline for tool output aggregation
+
+---
+
+## Quick Start
+
+### Prerequisites
+
+- Go 1.18+ (for reconnaissance tools)
+- Python 3.8+ (for automation scripts)
+- curl, dig, nslookup (DNS utilities)
+- Sudo privileges (for setup script)
+
+### Initial Setup
+
+```bash
+# Run setup script
+sudo bash setup/setup.sh
+
+# Install reconnaissance tools
+go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+go install -v github.com/projectdiscovery/dnsx@latest
+go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
+go install -v github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
+go install -v github.com/projectdiscovery/alterx/cmd/alterx@latest
+go install -v github.com/projectdiscovery/notify/cmd/notify@latest
+
+# Install Python dependencies (optional)
+pip install -r requirements.txt  # Create based on script needs
+```
+
+### Running a Web Security Assessment
+
+1. **Scope & Authorization** (Required):
+   ```bash
+   # Confirm target, environment, allowed accounts, rate limits, and out-of-scope actions
+   # Document authorization before beginning
+   ```
+
+2. **Build Threat Model**:
+   - Use `web-threat-model` skill to enumerate assets, roles, and security invariants
+   - Map attack surface and trust boundaries
+   - Identify priority failure modes
+
+3. **Discover Vulnerabilities**:
+   - Use `web-finding-discovery` skill for targeted vulnerability hunting
+   - Reference issue-specific playbooks in `ai/skills/web-security/references/`
+
+4. **Validate Findings**:
+   - Use `web-validation` skill to confirm each finding
+   - Capture baseline request, modify one variable, compare responses
+   - Suppress false positives with exact counterevidence
+
+5. **Report & Triage**:
+   - Use `web-reporting` skill or `new_finding.py` script
+   - Generate structured vulnerability reports
+   - Include severity assessment and remediation guidance
+
+---
+
+## Operational Security
+
+### Hard Rules
+
+1. **Authorization**: Confirm scope and authorization before testing. Maintain evidence of written authorization.
+
+2. **Low-Impact Operations**:
+   - Use owned accounts and test tenants exclusively
+   - Limit request volume and test frequency
+   - Perform only reversible actions
+
+3. **Data Protection**:
+   - Never exfiltrate secrets, credentials, personal data, or customer information
+   - Mask sensitive values in reports (tokens, cookies, emails, etc.)
+   - Stop testing immediately upon demonstrating vulnerability and impact
+
+4. **No Evasion or Malware**:
+   - Do not deploy web shells, malware, or persistent access mechanisms
+   - Do not evade detection systems or engage in anti-forensics
+   - Do not phish users or attack third-party services
+
+5. **Evidence Collection**:
+   - Capture repeatable proof-of-concept for all findings
+   - Document test methodology and impact clearly
+   - Maintain audit trail of all assessment activities
+
+---
+
+## Testing Workflows by Phase
+
+### Reconnaissance
+- Asset discovery and enumeration
+- Technology fingerprinting
+- Service and endpoint mapping
+- Credential harvesting (passive methods only)
+
+### Threat Modeling
+- Asset and workflow documentation
+- Role and permission mapping
+- Attack surface definition
+- Security invariant identification
+
+### Vulnerability Discovery
+- Web application testing (IDOR, auth bypass, injection, XSS, SSRF, etc.)
+- API endpoint fuzzing and parameter discovery
+- Business logic flaws and race conditions
+- Session and cookie manipulation
+- Upload bypass and file handling
+
+### Validation & Proof-of-Concept
+- Safe payload testing with owned accounts
+- Baseline-and-delta comparison methodology
+- False-positive suppression
+- Impact confirmation
+
+### Reporting & Remediation
+- Severity and CVSS assessment
+- Bug bounty platform submission
+- Pentest report generation
+- Remediation guidance and fix verification
+
+---
+
+## References & Additional Resources
+
+- **Threat Modeling**: See `ai/skills/web-threat-model/SKILL.md`
+- **False Positive Reduction**: See `ai/skills/web-security/references/false-positive-reduction.md`
+- **Issue Playbooks**: See `ai/skills/web-security/references/index.md` for issue-specific testing methodologies
+- **Coverage Matrix**: See `ai/skills/web-security/references/coverage-matrix.md` for comprehensive testing checklist
+
+---
+
+## Contributing
+
+To contribute new skills, tools, or workflows:
+
+1. Create a new skill directory in `ai/skills/` with proper structure
+2. Include SKILL.md with full documentation and workflow
+3. Add supporting scripts and references as needed
+4. Run `check_skill_structure.py` to validate structure
+5. Update this README with the new skill description
+
+---
+
+## License & Authorization
+
+This framework is designed for authorized security testing only. Users must:
+- Obtain written authorization before conducting any security assessment
+- Comply with all applicable laws and regulations
+- Respect scope boundaries and out-of-scope systems
+- Follow the hard rules outlined in the Operational Security section
+
+Unauthorized access to computer systems is illegal. Use responsibly.
+
+---
+
+## Support & Documentation
+
+- **Detailed Workflows**: See individual SKILL.md files in `ai/skills/*/`
+- **Reconnaissance Guide**: See [web-security-workflow.md](web-security-workflow.md)
+- **Script Documentation**: See individual `.py` file headers for usage and examples
+- **Alterx Configuration**: See `.config/alterx/` for subdomain permutation options
+
+---
+
+**Last Updated**: May 2026  
+**Version**: 1.0  
+**Status**: Active Development
