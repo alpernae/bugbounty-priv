@@ -1,0 +1,30 @@
+severity:
+  critical:
+    conditions:
+      - "Unauthenticated or low-privileged full account/tenant compromise"
+      - "Remote command execution on production system"
+      - "Mass access to sensitive data"
+      - "Payment or identity takeover at scale"
+  high:
+    conditions:
+      - "Cross-tenant sensitive data access"
+      - "Stored XSS against privileged users"
+      - "Admin action bypass"
+      - "Account takeover of another user"
+      - "SSRF with access to credentials/secrets"
+  medium:
+    conditions:
+      - "Single-account sensitive data exposure"
+      - "Limited privilege escalation"
+      - "CSRF with meaningful state change"
+      - "Reflected XSS with realistic attack path"
+  low:
+    conditions:
+      - "Low-sensitivity information disclosure"
+      - "Missing security header with limited contextual impact"
+      - "Minor authorization inconsistency with limited effect"
+  informational:
+    conditions:
+      - "Best practice issue without demonstrated security impact"
+      - "Version disclosure only"
+      - "Self-impact only"

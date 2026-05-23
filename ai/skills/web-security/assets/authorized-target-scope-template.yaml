@@ -1,0 +1,20 @@
+program: ""
+platform: "HackerOne"
+assets:
+  in_scope:
+    - "https://app.example.test"
+    - "https://api.example.test"
+  out_of_scope:
+    - "third-party services"
+    - "denial of service"
+    - "social engineering"
+accounts:
+  user_a: "researcher+user-a@example.test"
+  user_b: "researcher+user-b@example.test"
+  manager_a: ""
+  admin_a: ""
+rules:
+  automation: "manual-only unless policy allows"
+  rate_limit: "low-volume"
+  data_handling: "synthetic/owned data only"
+notes: ""

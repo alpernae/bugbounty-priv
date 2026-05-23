@@ -1,0 +1,4 @@
+interface:
+  display_name: "Burp MCP"
+  short_description: "Operate Burp Suite through MCP"
+  default_prompt: "Use burpsuite mcp to verify Burp MCP setup and run the right Burp workflow."

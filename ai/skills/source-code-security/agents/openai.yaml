@@ -1,0 +1,7 @@
+interface:
+  display_name: "Source Code Security Skill"
+  short_description: "Source-code security review with false-positive gates."
+  brand_color: "#111827"
+  default_prompt: "Use $source-code-skill to review this repository for exploitable source-code vulnerabilities and validate candidates with false-positive gates."
+policy:
+  allow_implicit_invocation: true

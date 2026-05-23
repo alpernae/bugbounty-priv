@@ -1,0 +1,8 @@
+interface:
+  display_name: "Web Security Skill"
+  short_description: "Scoped web/API testing with false-positive gates."
+  brand_color: "#0EA5E9"
+  default_prompt: "Use $web-security to create a scoped, safe web/API test plan and validate candidates with false-positive gates."
+
+policy:
+  allow_implicit_invocation: true

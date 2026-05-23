@@ -1,0 +1,10 @@
+rules:
+  - id: custom-rule-id
+    message: Explain what the rule detects and what must be manually verified.
+    severity: WARNING
+    languages: [generic]
+    patterns:
+      - pattern: $X
+    metadata:
+      confidence: LOW
+      manual_review_required: true

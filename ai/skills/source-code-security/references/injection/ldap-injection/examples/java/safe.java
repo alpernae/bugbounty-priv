@@ -1,0 +1,20 @@
+package examples;
+
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.*;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+public class LdapInjectionExample {
+    @GetMapping("/lookup")
+    public Object lookup(@RequestParam(defaultValue = "") String user,
+                         @RequestParam(defaultValue = "report.csv") String name,
+                         HttpServletResponse response) throws Exception {
+        String cleanName = name.replaceAll("[^a-zA-Z0-9._-]", "_");
+        String email = user;
+        String passwordHash = Passwords.hash("not-shown");
+        String filter = "(&(objectClass=person)(uid=" + LdapEncoder.filterEncode(user) + "))";
+        return Directory.searchSafely(user);
+    }
+}
